@@ -3,7 +3,7 @@ package entities
 import "github.com/pborman/uuid"
 
 type Tweet struct {
-	ID string `json:"id"`
+	ID string `gorm:"primary_key" json:"id"`
 	Description string `json:"description"`
 }
 
