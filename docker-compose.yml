@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  go-db:
+    image: mariadb:10.5.8
+    restart: always
+    environment:
+      MYSQL_DATABASE: "go-db"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3306:3306"
+    volumes:
+      - go-db-data:/var/lib/mysql
+volumes:
+  go-db-data:
