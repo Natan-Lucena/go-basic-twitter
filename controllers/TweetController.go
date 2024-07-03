@@ -1,42 +1,51 @@
 package controllers
 
 import (
-	"crud-go/entities"
+	"crud-go/services"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type tweetController struct {
-	tweets []entities.Tweet
+	service *services.TweetService
 }
 
 func NewTweetController() *tweetController {
 	return &tweetController{
-		tweets: []entities.Tweet{},
+		service: services.NewTweetService(),
 	}
 }
 
 func (controller *tweetController) FindAll(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, controller.tweets)
+	tweets := controller.service.FindAllTweets()
+	ctx.JSON(http.StatusOK, tweets)
 }
 func (controller *tweetController) Create(ctx *gin.Context) {
-	tweet := entities.NewTweet()
-	if err := ctx.BindJSON(&tweet); err != nil {
+	var input struct {
+		Description string `json:"description"`
+	}
+	if err := ctx.BindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	controller.tweets = append(controller.tweets, *tweet)
+	tweet, err := controller.service.CreateTweet(&input.Description)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	ctx.JSON(http.StatusOK, tweet)
 }
+
 func (controller *tweetController) DeleteById(ctx *gin.Context) {
 	id:= ctx.Param("id")
-	for i, tweet := range controller.tweets{
-		if tweet.ID == id{
-			controller.tweets = append(controller.tweets[0:i], controller.tweets[i+1:]...)
-			ctx.JSON(http.StatusOK, gin.H{"message": "Tweet deleted"})
-			ctx.Status(http.StatusOK)
+	if err := controller.service.DeleteTweetById(id); err != nil {
+		if err == gorm.ErrRecordNotFound {
+			ctx.JSON(http.StatusNotFound, gin.H{"error": "Record not found"})
 			return
-	}}
-	ctx.JSON(http.StatusNotFound, gin.H{"error": "Tweet not found"})
+		}
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 }
