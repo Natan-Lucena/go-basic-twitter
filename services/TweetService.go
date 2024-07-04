@@ -3,18 +3,19 @@ package services
 import (
 	"crud-go/config"
 	"crud-go/entities"
+	"crud-go/repositories"
 
 	"gorm.io/gorm"
 )
 
 type TweetService struct {
 	db *gorm.DB
+	tweetRepository *repositories.TweetRepository
 }
 
 func(service *TweetService ) CreateTweet(description *string)  (*entities.Tweet, error) {
-	tweet:= entities.NewTweet()
-	tweet.Description = *description
-	if err := service.db.Create(&tweet).Error; err != nil {
+	tweet, err := service.tweetRepository.Create(description)
+	if err != nil {
 		return nil, err
 	}
 	return tweet, nil
@@ -39,7 +40,9 @@ func (service *TweetService) FindAllTweets() ([]entities.Tweet) {
 
 func NewTweetService() *TweetService{
 	db, _ := config.InitDB()
-	return &TweetService{
+	tweetRepository := repositories.NewTweetRepository()
+ 	return &TweetService{
 		db: db,
+		tweetRepository: tweetRepository,
 	}
 }
