@@ -2,13 +2,21 @@ package config
 
 import (
 	entities "crud-go/entities"
+	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func InitDB() (*gorm.DB, error) {
-	dsn := "user:password@tcp(localhost:3306)/go-db?charset=utf8mb4&parseTime=True&loc=Local"
+	err := godotenv.Load()
+    if err != nil {
+        log.Fatalf("Erro ao carregar arquivo .env: %v", err)
+    }
+	key := "DB_URL"
+	dsn := os.Getenv(key)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
