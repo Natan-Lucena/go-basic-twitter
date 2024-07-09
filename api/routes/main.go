@@ -15,6 +15,7 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 		v1.POST("/tweets", tweetController.Create )
 		v1.DELETE("/tweets/:id", tweetController.DeleteById )
 		v1.POST("/signup", userController.SignUp )
+		v1.POST("/signin", userController.SignIn )
 
 	}
 	return v1

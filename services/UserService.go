@@ -25,6 +25,21 @@ func (service *UserService) SignUpUser(email, password, name string)(*entities.U
 	return user, nil
 }
 
+func (service *UserService) SignInUser (email, password string)(string, error){
+	user, err := service.repository.FindUserByEmail(email)
+	if err != nil {
+		return "", err
+	}
+	if !utils.CheckPasswordHash(password, user.Password) {
+		return "", errors.ErrInvalidPassword
+	}
+	token, err := utils.GenerateJWT(email)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
+}
+
 func NewUserService() *UserService {
 	repository := repositories.NewUserRepository()
 	return &UserService{

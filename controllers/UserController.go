@@ -29,6 +29,23 @@ func (controller *UserController) SignUp(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, user)
 }
 
+func (controller *UserController) SignIn(ctx *gin.Context) {
+	var input struct {
+		Email    string `json:"email" binding:"required,email"`
+		Password string `json:"password" binding:"required"`
+	}
+	if err := ctx.BindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	token, err := controller.service.SignInUser(input.Email, input.Password)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"token": token})
+}
+
 func NewUserController() *UserController {
 	service := services.NewUserService()
 	return &UserController{
