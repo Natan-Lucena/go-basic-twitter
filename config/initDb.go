@@ -23,7 +23,7 @@ func InitDB() (*gorm.DB, error) {
 		return nil, err
 	}
 	
-	err = db.AutoMigrate(&entities.Tweet{}, &entities.User{})
+	err = db.AutoMigrate(&entities.User{},&entities.Tweet{})
 	if err != nil {
 		return nil, err
 	}
