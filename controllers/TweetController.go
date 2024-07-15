@@ -30,7 +30,9 @@ func (controller *tweetController) Create(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	tweet, err := controller.service.CreateTweet(&input.Description)
+	email := ctx.GetString("email")
+
+	tweet, err := controller.service.CreateTweet(&input.Description, &email)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -40,7 +42,8 @@ func (controller *tweetController) Create(ctx *gin.Context) {
 
 func (controller *tweetController) DeleteById(ctx *gin.Context) {
 	id:= ctx.Param("id")
-	if err := controller.service.DeleteTweetById(id); err != nil {
+	email := ctx.GetString("email")
+	if err := controller.service.DeleteTweetById(id, email); err != nil {
 		if err == gorm.ErrRecordNotFound {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Record not found"})
 			return
