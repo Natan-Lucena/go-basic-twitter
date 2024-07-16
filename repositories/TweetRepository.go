@@ -32,6 +32,19 @@ func (repository *TweetRepository) FindAll() ([]entities.Tweet) {
 func (repository *TweetRepository) DeleteTweetById(id string){
 	repository.db.Where("id = ?", id).Delete(&entities.Tweet{})
 }
+
+func (repository *TweetRepository) GetUserTweets(id string) []entities.Tweet {
+	var tweets []entities.Tweet
+	repository.db.Where("user_id = ?", id).Find(&tweets)
+	return tweets
+}
+func (repository *TweetRepository) FindTweetById(id string) *entities.Tweet {
+	var tweet entities.Tweet
+	if err := repository.db.Where("id = ?", id).First(&tweet).Error; err != nil {
+		return nil
+	}
+	return &tweet
+}
 func NewTweetRepository() *TweetRepository{
 	db, _ := config.InitDB()
 	return &TweetRepository{

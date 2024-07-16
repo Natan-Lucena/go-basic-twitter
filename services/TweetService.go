@@ -1,16 +1,12 @@
 package services
 
 import (
-	"crud-go/config"
 	"crud-go/config/errors"
 	"crud-go/entities"
 	"crud-go/repositories"
-
-	"gorm.io/gorm"
 )
 
 type TweetService struct {
-	db *gorm.DB
 	tweetRepository *repositories.TweetRepository
 	userRepository *repositories.UserRepository
 }
@@ -28,9 +24,10 @@ func(service *TweetService ) CreateTweet(description, email *string)  (*entities
 }
 
 func (service *TweetService) DeleteTweetById(id, email string) error {
-	var tweet entities.Tweet
-	if err := service.db.Where("id = ?", id).First(&tweet).Error; err != nil {
+	tweet := *service.tweetRepository.FindTweetById(id)
+	if tweet.ID == "" {
 		return errors.ErrTweetNotFound
+	
 	}
 	if tweet.User.Email != email {
 		return errors.ErrTweetIsNotOfTheUser
@@ -43,13 +40,19 @@ func (service *TweetService) FindAllTweets() ([]entities.Tweet) {
 	tweets := service.tweetRepository.FindAll()
 	return tweets
 }
+func (service *TweetService) GetUserTweets(email string) ([]entities.Tweet, error) {
+	user, err := service.userRepository.FindUserByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+	tweets := service.tweetRepository.GetUserTweets(user.ID)
+	return tweets, nil
+}
 
 func NewTweetService() *TweetService{
-	db, _ := config.InitDB()
 	tweetRepository := repositories.NewTweetRepository()
 	userRepository := repositories.NewUserRepository()
  	return &TweetService{
-		db: db,
 		tweetRepository: tweetRepository,
 		userRepository: userRepository,
 	}
