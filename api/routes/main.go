@@ -21,6 +21,7 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 			protected.GET("/tweets", tweetController.FindAll)
 			protected.POST("/tweets", tweetController.Create)
 			protected.DELETE("/tweets/:id", tweetController.DeleteById)
+			protected.GET("/tweets/user", tweetController.GetUserTweets)
 		}
 
 	}

@@ -46,6 +46,8 @@ func (controller *UserController) SignIn(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
 
+
+
 func NewUserController() *UserController {
 	service := services.NewUserService()
 	return &UserController{
