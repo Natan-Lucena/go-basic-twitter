@@ -21,6 +21,12 @@ func (repository *TweetRepository) Create(description, userId string)  (*entitie
 	return tweet, nil
 }
 
+func (repository *TweetRepository) GetTweetsPaginationByUserId(userId string) ([]entities.Tweet){
+	var tweets []entities.Tweet
+	repository.db.Where("user_id != ?", userId).Find(&tweets)
+	return tweets
+}
+
 func (repository *TweetRepository) FindAll() ([]entities.Tweet) {
 	var tweets []entities.Tweet
 	if err := repository.db.Find(&tweets).Error; err != nil {

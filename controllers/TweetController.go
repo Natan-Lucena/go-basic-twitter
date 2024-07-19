@@ -53,6 +53,16 @@ func (controller *tweetController) DeleteById(ctx *gin.Context) {
 	}
 }
 
+func (controller *tweetController)  GetTweetsPaginationByUserId(ctx *gin.Context){
+	email := ctx.GetString("email")
+	tweets, err := controller.service.GetTweetsPaginationByUserId(email)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, tweets)
+}
+
 func (controller *tweetController) GetUserTweets(ctx *gin.Context) {
 	email := ctx.GetString("email")
 	tweets, err := controller.service.GetUserTweets(email)

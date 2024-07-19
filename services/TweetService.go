@@ -49,6 +49,15 @@ func (service *TweetService) GetUserTweets(email string) ([]entities.Tweet, erro
 	return tweets, nil
 }
 
+func (service *TweetService) GetTweetsPaginationByUserId(email string) ([]entities.Tweet, error) {
+	user, err := service.userRepository.FindUserByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+	tweets := service.tweetRepository.GetTweetsPaginationByUserId(user.ID)
+	return tweets, nil
+}
+
 func NewTweetService() *TweetService{
 	tweetRepository := repositories.NewTweetRepository()
 	userRepository := repositories.NewUserRepository()
