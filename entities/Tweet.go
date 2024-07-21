@@ -3,12 +3,12 @@ package entities
 import "github.com/pborman/uuid"
 
 type Tweet struct {
-	ID           string `gorm:"primary_key" json:"id"`
-	Description  string `json:"description"`
-	UserID       string `type:"varchar(191);not null" json:"userId"`
-	User         User   `gorm:"foreignkey:UserID"`
-	ReplyToTweet *string `json:"replyToTweet,omitempty"`
-	ReplyTo      *Tweet  `gorm:"foreignkey:ReplyToTweet"`
+    ID           string  `gorm:"primary_key;type:varchar(36)" json:"id"`
+    Description  string  `json:"description"`
+    UserID       string  `gorm:"type:varchar(191);not null" json:"userId"`
+    User         User    `gorm:"foreignkey:UserID"`
+    ReplyToTweet *string `gorm:"type:varchar(36)" json:"replyToTweet,omitempty"`
+    ReplyTo      *Tweet  `gorm:"foreignkey:ReplyToTweet"`
 }
 
 func NewTweet() *Tweet {
