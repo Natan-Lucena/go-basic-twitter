@@ -72,3 +72,22 @@ func (controller *tweetController) GetUserTweets(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, tweets)
 }
+
+func (controller *tweetController) ReplyTweet(ctx *gin.Context) {
+	var input struct {
+		Description string `json:"description"`
+		
+	}
+	tweetId := ctx.Param("tweetId")
+	if err := ctx.BindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	email := ctx.GetString("email")
+	tweet, err := controller.service.ReplyTweet(&input.Description, &tweetId, &email)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, tweet)
+}

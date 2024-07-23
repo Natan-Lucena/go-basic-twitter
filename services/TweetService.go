@@ -58,6 +58,22 @@ func (service *TweetService) GetTweetsPaginationByUserId(email string) ([]entiti
 	return tweets, nil
 }
 
+func (service *TweetService) ReplyTweet (description, tweetId , email *string)(*entities.Tweet, error){
+	user, err := service.userRepository.FindUserByEmail(*email);
+	if err != nil {
+		return nil, err
+	}
+	tweetExist := service.tweetRepository.FindTweetById(*tweetId)
+	if tweetExist == nil {
+		return nil, errors.ErrTweetNotFound
+	}
+	tweet, err := service.tweetRepository.ReplyTweet(description, tweetId, &user.ID)
+    if err != nil {
+        return nil, err
+    }
+    return tweet, nil
+}
+
 func NewTweetService() *TweetService{
 	tweetRepository := repositories.NewTweetRepository()
 	userRepository := repositories.NewUserRepository()

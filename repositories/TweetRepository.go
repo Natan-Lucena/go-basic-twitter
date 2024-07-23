@@ -51,6 +51,17 @@ func (repository *TweetRepository) FindTweetById(id string) *entities.Tweet {
 	}
 	return &tweet
 }
+func (repository *TweetRepository) ReplyTweet(description, tweetId, userId *string) (*entities.Tweet, error) {
+    tweet := entities.NewTweet()
+    tweet.Description = *description
+    tweet.UserID = *userId
+    tweet.ReplyToTweet = tweetId
+    if err := repository.db.Create(&tweet).Error; err != nil {
+        return nil, err
+    }
+    return tweet, nil
+}
+
 func NewTweetRepository() *TweetRepository{
 	db, _ := config.InitDB()
 	return &TweetRepository{
