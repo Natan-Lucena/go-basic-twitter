@@ -19,10 +19,11 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 		protected.Use(middlewares.AuthMiddleware())
 		{
 			protected.GET("/tweets", tweetController.FindAll)
-			protected.POST("/tweets", tweetController.Create)
 			protected.GET("/tweets/scrolled", tweetController.GetTweetsPaginationByUserId)
-			protected.DELETE("/tweets/:id", tweetController.DeleteById)
 			protected.GET("/tweets/user", tweetController.GetUserTweets)
+			protected.POST("/tweets", tweetController.Create)
+			protected.POST("/tweets/reply/:tweetId", tweetController.ReplyTweet)
+			protected.DELETE("/tweets/:id", tweetController.DeleteById)
 		}
 
 	}
