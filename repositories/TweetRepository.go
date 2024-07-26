@@ -23,14 +23,14 @@ func (repository *TweetRepository) Create(description, userId string)  (*entitie
 
 func (repository *TweetRepository) GetTweetsPaginationByUserId(userId string) ([]entities.Tweet){
 	var tweets []entities.Tweet
-	repository.db.Where("user_id != ?", userId).Find(&tweets)
+	repository.db.Preload("ReplyTo").Preload("User").Where("user_id != ?", userId).Find(&tweets)
 	return tweets
 }
 
 func (repository *TweetRepository) FindAll() ([]entities.Tweet) {
 	var tweets []entities.Tweet
-	if err := repository.db.Find(&tweets).Error; err != nil {
-		return nil
+	if err := repository.db.Preload("ReplyTo").Preload("User").Find(&tweets).Error; err != nil {
+		return nil;
 	}
 	return tweets
 }
@@ -41,12 +41,12 @@ func (repository *TweetRepository) DeleteTweetById(id string){
 
 func (repository *TweetRepository) GetUserTweets(id string) []entities.Tweet {
 	var tweets []entities.Tweet
-	repository.db.Where("user_id = ?", id).Find(&tweets)
+	repository.db.Preload("ReplyTo").Preload("User").Where("user_id = ?", id).Find(&tweets)
 	return tweets
 }
 func (repository *TweetRepository) FindTweetById(id string) *entities.Tweet {
 	var tweet entities.Tweet
-	if err := repository.db.Where("id = ?", id).First(&tweet).Error; err != nil {
+	if err := repository.db.Preload("ReplyTo").Preload("User").Where("id = ?", id).First(&tweet).Error; err != nil {
 		return nil
 	}
 	return &tweet
