@@ -8,6 +8,7 @@ type User struct {
 	Password string `json:"password"`
 	Email string `gorm:"unique" json:"email"`
 	Name string `json:"name"`
+	Likes []Like `gorm:"foreignkey:UserID"`
 }
 
 func NewUser() *User {

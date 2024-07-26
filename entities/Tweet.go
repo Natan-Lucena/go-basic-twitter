@@ -9,6 +9,7 @@ type Tweet struct {
     User         User    `gorm:"foreignkey:UserID"`
     ReplyToTweet *string `gorm:"type:varchar(36)" json:"replyToTweet,omitempty"`
     ReplyTo      *Tweet  `gorm:"foreignkey:ReplyToTweet"`
+    Likes        []Like  `gorm:"foreignkey:TweetID"`
 }
 
 func NewTweet() *Tweet {
