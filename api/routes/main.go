@@ -10,6 +10,7 @@ import (
 func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 	tweetController := controllers.NewTweetController()
 	userController := controllers.NewUserController()
+	likeController := controllers.NewLikeController()
 	v1:= router.Group("/v1") 
 	{	
 		v1.POST("/signup", userController.SignUp )
@@ -24,6 +25,7 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 			protected.POST("/tweets", tweetController.Create)
 			protected.POST("/tweets/reply/:tweetId", tweetController.ReplyTweet)
 			protected.DELETE("/tweets/:id", tweetController.DeleteById)
+			protected.POST("/tweets/:tweetId/like", likeController.ToggleLikeByTweetId)
 		}
 
 	}
