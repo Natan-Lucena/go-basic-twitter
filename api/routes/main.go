@@ -26,6 +26,7 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 			protected.POST("/tweets/reply/:tweetId", tweetController.ReplyTweet)
 			protected.DELETE("/tweets/:id", tweetController.DeleteById)
 			protected.POST("/tweets/:tweetId/like", likeController.ToggleLikeByTweetId)
+			protected.GET("/tweets/:tweetId/users/like", tweetController.GetUserThatLikedTweet)
 		}
 
 	}

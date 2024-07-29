@@ -74,6 +74,21 @@ func (service *TweetService) ReplyTweet (description, tweetId , email *string)(*
     return tweet, nil
 }
 
+func(service *TweetService) GetUserThatLikedTweet(tweetId string) ([]entities.User, error) {
+	tweet := *service.tweetRepository.FindTweetById(tweetId)
+	if tweet.ID == "" {
+		return nil, errors.ErrTweetNotFound
+	}
+	users, err := service.tweetRepository.GetUserThatLikedTweet(tweetId)
+	if err != nil {
+		return nil, err
+	}
+	if users == nil {
+		return []entities.User{}, nil
+	}
+	return users, nil
+}
+
 func NewTweetService() *TweetService{
 	tweetRepository := repositories.NewTweetRepository()
 	userRepository := repositories.NewUserRepository()

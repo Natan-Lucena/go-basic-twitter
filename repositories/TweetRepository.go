@@ -62,6 +62,20 @@ func (repository *TweetRepository) ReplyTweet(description, tweetId, userId *stri
     return tweet, nil
 }
 
+func (repository *TweetRepository) GetUserThatLikedTweet(tweetId string) ([]entities.User, error) { 
+	var users []entities.User
+	err := repository.db.Table("users").
+		Select("users.*").
+		Joins("JOIN likes ON users.id = likes.user_id").
+		Where("likes.tweet_id = ?", tweetId).
+		Scan(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+
 func NewTweetRepository() *TweetRepository{
 	db, _ := config.InitDB()
 	return &TweetRepository{
