@@ -101,3 +101,13 @@ func (controller *tweetController) GetUserThatLikedTweet(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, users)
 }
+
+func (controller *tweetController) GetTweetsThatUserLiked(ctx *gin.Context) {
+	email := ctx.GetString("email")
+	tweets, err := controller.service.GetTweetsThatUserLiked(email)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, tweets)
+}
