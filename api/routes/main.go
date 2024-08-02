@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"crud-go/config/middlewares"
 	"crud-go/internal/controllers"
+	"crud-go/internal/controllers/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
