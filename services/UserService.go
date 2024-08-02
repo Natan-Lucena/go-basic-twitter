@@ -3,8 +3,9 @@ package services
 import (
 	"crud-go/config/errors"
 	"crud-go/entities"
+	"crud-go/pkg/bcrypt"
+	"crud-go/pkg/jwt"
 	"crud-go/repositories"
-	"crud-go/utils"
 )
 
 type UserService struct {
@@ -17,7 +18,7 @@ func (service *UserService) SignUpUser(email, password, name string)(*entities.U
 		return nil, errors.ErrUserAlreadyExists
 	}
 	
-	hashedPassword, _ := utils.HashPassword(password)
+	hashedPassword, _ := bcrypt.HashPassword(password)
 	user, err := service.repository.CreateUser(email, hashedPassword, name)
 	if err != nil {
 		return nil, err
@@ -30,10 +31,10 @@ func (service *UserService) SignInUser (email, password string)(string, error){
 	if err != nil {
 		return "", err
 	}
-	if !utils.CheckPasswordHash(password, user.Password) {
+	if !bcrypt.CheckPasswordHash(password, user.Password) {
 		return "", errors.ErrInvalidPassword
 	}
-	token, err := utils.GenerateJWT(email)
+	token, err := jwt.GenerateJWT(email)
 	if err != nil {
 		return "", err
 	}

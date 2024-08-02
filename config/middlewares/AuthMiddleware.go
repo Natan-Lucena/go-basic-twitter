@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"crud-go/utils"
+	"crud-go/pkg/jwt"
 	"net/http"
 	"strings"
 
@@ -22,7 +22,7 @@ func AuthMiddleware() gin.HandlerFunc{
             ctx.Abort()
             return
         }
-		claims, err := utils.ValidateJWT(tokenString)
+		claims, err := jwt.ValidateJWT(tokenString)
         if err != nil {
             ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
             ctx.Abort()
