@@ -2,8 +2,8 @@ package services
 
 import (
 	"crud-go/config/errors"
-	"crud-go/entities"
-	"crud-go/repositories"
+	"crud-go/internal/entities"
+	"crud-go/internal/repositories"
 )
 
 type TweetService struct {

@@ -1,6 +1,6 @@
 package services
 
-import "crud-go/repositories"
+import "crud-go/internal/repositories"
 
 type LikeService struct {
 	LikeRepository repositories.LikeRepository

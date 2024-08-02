@@ -1,7 +1,7 @@
 package config
 
 import (
-	entities "crud-go/entities"
+	entities "crud-go/internal/entities"
 	"log"
 	"os"
 

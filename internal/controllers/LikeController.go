@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"crud-go/services"
+	"crud-go/internal/services"
 
 	"github.com/gin-gonic/gin"
 )

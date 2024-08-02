@@ -2,10 +2,10 @@ package services
 
 import (
 	"crud-go/config/errors"
-	"crud-go/entities"
+	"crud-go/internal/entities"
+	"crud-go/internal/repositories"
 	"crud-go/pkg/bcrypt"
 	"crud-go/pkg/jwt"
-	"crud-go/repositories"
 )
 
 type UserService struct {

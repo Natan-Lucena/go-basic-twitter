@@ -2,7 +2,7 @@ package routes
 
 import (
 	"crud-go/config/middlewares"
-	controllers "crud-go/controllers"
+	"crud-go/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )

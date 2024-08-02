@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"crud-go/config"
-	"crud-go/entities"
+	"crud-go/internal/entities"
 
 	"gorm.io/gorm"
 )
