@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"crud-go/config"
 	"crud-go/internal/entities"
+	GORM "crud-go/pkg/gorm"
 
 	"gorm.io/gorm"
 )
@@ -31,7 +31,7 @@ func (repository *UserRepository) CreateUser (email, password, name string)(*ent
 }
 
 func NewUserRepository() *UserRepository{
-	db, _ := config.InitDB()
+	db, _ := GORM.InitDB()
 	return &UserRepository{
 		db: db,
 	}

@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"crud-go/config"
 	"crud-go/internal/entities"
+	GORM "crud-go/pkg/gorm"
 
 	"gorm.io/gorm"
 )
@@ -92,7 +92,7 @@ func (repository *TweetRepository) GetTweetsThatUserLiked(userId string) ([]enti
 
 
 func NewTweetRepository() *TweetRepository{
-	db, _ := config.InitDB()
+	db, _ := GORM.InitDB()
 	return &TweetRepository{
 		db: db,
 	}
