@@ -1,10 +1,10 @@
 package services
 
 import (
-	"crud-go/config/errors"
 	"crud-go/internal/entities"
 	"crud-go/internal/repositories"
 	"crud-go/pkg/bcrypt"
+	errors "crud-go/pkg/err"
 	"crud-go/pkg/jwt"
 )
 
