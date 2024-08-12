@@ -29,7 +29,7 @@ func (service *UserService) SignUpUser(email, password, name string)(*entities.U
 func (service *UserService) SignInUser (email, password string)(string, error){
 	user, err := service.repository.FindUserByEmail(email)
 	if err != nil {
-		return "", err
+		return "", errors.ErrUserDoesNotExist
 	}
 	if !bcrypt.CheckPasswordHash(password, user.Password) {
 		return "", errors.ErrInvalidPassword

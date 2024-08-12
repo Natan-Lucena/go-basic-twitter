@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"crud-go/internal/services"
+	errors "crud-go/pkg/err"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -40,6 +41,10 @@ func (controller *UserController) SignIn(ctx *gin.Context) {
 	}
 	token, err := controller.service.SignInUser(input.Email, input.Password)
 	if err != nil {
+		if err == errors.ErrInvalidPassword || err == errors.ErrUserDoesNotExist {
+			ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+			return
+		}
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
