@@ -11,7 +11,7 @@ import (
 )
 
 func InitDB() (*gorm.DB, error) {
-	err := godotenv.Load("../../.env")
+	err := godotenv.Load()
     if err != nil {
         log.Fatalf("Erro ao carregar arquivo .env: %v", err)
     }
