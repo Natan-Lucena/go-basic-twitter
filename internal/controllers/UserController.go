@@ -17,12 +17,13 @@ func (controller *UserController) SignUp(ctx *gin.Context) {
 		Email    string `json:"email" binding:"required,email"`
 		Password string `json:"password" binding:"required"`
 		Name     string `json:"name" binding:"required"`
+		Username string `json:"username" binding:"required"`
 	}
 	if err := ctx.BindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	user, err := controller.service.SignUpUser(input.Email, input.Password, input.Name)
+	user, err := controller.service.SignUpUser(input.Email,input.Username , input.Password, input.Name)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

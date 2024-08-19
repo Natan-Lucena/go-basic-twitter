@@ -12,14 +12,18 @@ type UserService struct {
 	repository *repositories.UserRepository
 }
 
-func (service *UserService) SignUpUser(email, password, name string)(*entities.User, error){
+func (service *UserService) SignUpUser(email,username ,password, name string)(*entities.User, error){
 	userAlreadyExists, _ := service.repository.FindUserByEmail(email)
 	if userAlreadyExists != nil {
 		return nil, errors.ErrUserAlreadyExists
 	}
-	
+	userAlreadyExists, _ = service.repository.FindUserByUsername(username)
+	if userAlreadyExists != nil {
+		return nil, errors.ErrUserAlreadyExists
+	}
+
 	hashedPassword, _ := bcrypt.HashPassword(password)
-	user, err := service.repository.CreateUser(email, hashedPassword, name)
+	user, err := service.repository.CreateUser(email,username ,hashedPassword, name)
 	if err != nil {
 		return nil, err
 	}

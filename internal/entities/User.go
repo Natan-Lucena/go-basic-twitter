@@ -8,6 +8,8 @@ type User struct {
 	Password string `json:"password"`
 	Email string `gorm:"unique" json:"email"`
 	Name string `json:"name"`
+	Description *string `json:"description"`
+	Username string `gorm:"unique" json:"username"`
 	Likes []Like `gorm:"foreignkey:UserID"`
 }
 
