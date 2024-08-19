@@ -50,7 +50,19 @@ func (controller *UserController) SignIn(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
-
+func (controller *UserController) GetUserSession(ctx *gin.Context) {
+	email := ctx.GetString("email")
+	user, err := controller.service.GetUserSession(email)
+	if err != nil {
+		if err == errors.ErrUserDoesNotExist {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
+}
 
 
 func NewUserController() *UserController {

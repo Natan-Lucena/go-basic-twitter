@@ -19,6 +19,7 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 		protected := v1.Group("/")
 		protected.Use(middlewares.AuthMiddleware())
 		{
+			protected.GET("/user/me", userController.GetUserSession)
 			protected.GET("/tweets", tweetController.FindAll)
 			protected.GET("/tweets/scrolled", tweetController.GetTweetsPaginationByUserId)
 			protected.GET("/tweets/user", tweetController.GetUserTweets)

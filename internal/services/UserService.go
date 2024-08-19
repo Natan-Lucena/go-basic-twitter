@@ -40,6 +40,13 @@ func (service *UserService) SignInUser (email, password string)(string, error){
 	}
 	return token, nil
 }
+func(service *UserService) GetUserSession(email string)(*entities.User, error){
+	user, err := service.repository.FindUserByEmail(email)
+	if err != nil {
+		return nil, errors.ErrUserDoesNotExist
+	}
+	return user, nil
+}
 
 func NewUserService() *UserService {
 	repository := repositories.NewUserRepository()
