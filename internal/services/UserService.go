@@ -51,6 +51,13 @@ func(service *UserService) GetUserSession(email string)(*entities.User, error){
 	}
 	return user, nil
 }
+func (service *UserService) GetUserByID(id string)(*entities.User, error){
+	user, err := service.repository.FindUserByID(id)
+	if err != nil {
+		return nil, errors.ErrUserDoesNotExist
+	}
+	return user, nil
+}
 
 func NewUserService() *UserService {
 	repository := repositories.NewUserRepository()

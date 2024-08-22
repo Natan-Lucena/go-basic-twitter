@@ -65,6 +65,20 @@ func (controller *UserController) GetUserSession(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, user)
 }
 
+func (controller *UserController) GetUserByID(ctx *gin.Context) {
+	id := ctx.Param("id")
+	user, err := controller.service.GetUserByID(id)
+	if err != nil {
+		if err == errors.ErrUserDoesNotExist {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
+}
+
 
 func NewUserController() *UserController {
 	service := services.NewUserService()

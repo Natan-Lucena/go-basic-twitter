@@ -15,6 +15,7 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 	{	
 		v1.POST("/signup", userController.SignUp )
 		v1.POST("/signin", userController.SignIn )
+		v1.GET("/users/:id", userController.GetUserByID)
 
 		protected := v1.Group("/")
 		protected.Use(middlewares.AuthMiddleware())

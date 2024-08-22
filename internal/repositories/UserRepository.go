@@ -26,6 +26,13 @@ func (repository *UserRepository) FindUserByEmail(email string) (*entities.User,
 	}
 	return &user, nil
 }
+func (repository *UserRepository) FindUserByID(id string) (*entities.User, error) {
+	var user entities.User
+	if err := repository.db.Where("id = ?", id).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
 
 func (repository *UserRepository) CreateUser (email, username ,password, name string)(*entities.User, error){
 	user := entities.NewUser()
