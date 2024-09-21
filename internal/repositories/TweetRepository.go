@@ -23,7 +23,7 @@ func (repository *TweetRepository) Create(description, userId string)  (*entitie
 
 func (repository *TweetRepository) GetTweetsPaginationByUserId(userId string) ([]entities.Tweet){
 	var tweets []entities.Tweet
-	repository.db.Preload("ReplyTo").Preload("User").Where("user_id != ?", userId).Find(&tweets)
+	repository.db.Preload("ReplyTo").Preload("User").Preload("Likes").Where("user_id != ?", userId).Find(&tweets)
 	return tweets
 }
 
