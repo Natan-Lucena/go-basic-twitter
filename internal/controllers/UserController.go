@@ -12,6 +12,16 @@ type UserController struct {
 	service *services.UserService
 }
 
+func (controller *UserController) GetNotFollowedUsers(ctx *gin.Context) {
+	email := ctx.GetString("email")
+	users, err := controller.service.FindNotFollowedUsers(email)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, users)
+}
+
 func (controller *UserController) SignUp(ctx *gin.Context) {
 	var input struct {
 		Email    string `json:"email" binding:"required,email"`

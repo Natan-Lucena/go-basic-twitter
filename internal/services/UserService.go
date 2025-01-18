@@ -12,6 +12,14 @@ type UserService struct {
 	repository *repositories.UserRepository
 }
 
+func (service *UserService) FindNotFollowedUsers (email string) ([]entities.User, error){
+	users, err := service.repository.FindNotFollowedUsers(email, 1, 3)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
 func (service *UserService) SignUpUser(email,username ,password, name string)(*entities.User, error){
 	userAlreadyExists, _ := service.repository.FindUserByEmail(email)
 	if userAlreadyExists != nil {

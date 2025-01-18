@@ -11,6 +11,17 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
+func (repository *UserRepository) FindNotFollowedUsers(email string, page, pageSize int) ([]entities.User, error) {
+	var users []entities.User
+
+	offset := (page - 1) * pageSize
+
+	if err := repository.db.Where("email != ?", email).Offset(offset).Limit(pageSize).Find(&users).Error; err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
 func (repository *UserRepository) FindUserByUsername(username string) (*entities.User, error) {
 	var user entities.User
 	if err := repository.db.Where("username = ?", username).First(&user).Error; err != nil {
