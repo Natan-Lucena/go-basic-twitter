@@ -9,4 +9,5 @@ var (
     ErrTweetIsNotOfTheUser = errors.New("tweet is not of the user")
     ErrTweetNotFound = errors.New("tweet not found")
     ErrWhileSavingNews = errors.New("error while saving news")
+    ErrWhileListingNews = errors.New("error while listing news")
 )

@@ -33,3 +33,12 @@ func (controller *NewsController) CreateNews(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"message": "News created successfully"})
 }
+
+func (controller *NewsController) ListNews(ctx *gin.Context) {
+	newsList, err := controller.service.ListNews()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"news": newsList})
+}
