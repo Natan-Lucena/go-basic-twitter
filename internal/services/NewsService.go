@@ -25,3 +25,11 @@ func (service *NewsService) CreateNews(description, link string) error {
 	}
 	return nil
 }
+
+func (service *NewsService) ListNews() ([]entities.News, error) {
+	newsList, err := service.newsRepository.List(nil, nil)
+	if err != nil {
+		return nil, errors.ErrWhileListingNews
+	}
+	return newsList, nil
+}

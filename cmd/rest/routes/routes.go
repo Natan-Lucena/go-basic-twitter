@@ -17,7 +17,6 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 		v1.POST("/signup", userController.SignUp )
 		v1.POST("/signin", userController.SignIn )
 		v1.GET("/users/:id", userController.GetUserByID)
-		v1.POST("/news", newsController.CreateNews)
 
 		protected := v1.Group("/")
 		protected.Use(middlewares.AuthMiddleware())
@@ -33,6 +32,9 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 			protected.POST("/tweets/:tweetId/like", likeController.ToggleLikeByTweetId)
 			protected.GET("/tweets/:tweetId/users/like", tweetController.GetUserThatLikedTweet)
 			protected.GET("/tweets/user/like", tweetController.GetTweetsThatUserLiked)
+			protected.POST("/news", newsController.CreateNews)
+			protected.GET("/news", newsController.ListNews)
+
 		}
 
 	}
