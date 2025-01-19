@@ -8,4 +8,5 @@ var (
     ErrInvalidPassword = errors.New("invalid password")
     ErrTweetIsNotOfTheUser = errors.New("tweet is not of the user")
     ErrTweetNotFound = errors.New("tweet not found")
+    ErrWhileSavingNews = errors.New("error while saving news")
 )

@@ -11,11 +11,13 @@ func AppRoutes(router *gin.Engine) *gin.RouterGroup {
 	tweetController := controllers.NewTweetController()
 	userController := controllers.NewUserController()
 	likeController := controllers.NewLikeController()
+	newsController := controllers.NewNewsController()
 	v1:= router.Group("/v1") 
 	{	
 		v1.POST("/signup", userController.SignUp )
 		v1.POST("/signin", userController.SignIn )
 		v1.GET("/users/:id", userController.GetUserByID)
+		v1.POST("/news", newsController.CreateNews)
 
 		protected := v1.Group("/")
 		protected.Use(middlewares.AuthMiddleware())
